@@ -9,4 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: check 
-      run: echo $github.event
+      env:
+        GITHUB_CONTEXT: ${{ toJson(github) }}
+      run: echo "$GITHUB_CONTEXT"
+
