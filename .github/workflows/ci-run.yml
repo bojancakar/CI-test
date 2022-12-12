@@ -1,0 +1,9 @@
+name: ci 
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  CI-pipeline:
+    uses: bojancakar/kk/.github/workflows/ci.yml@main
