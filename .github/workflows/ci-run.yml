@@ -12,5 +12,9 @@ jobs:
       env:
         GITHUB_CONTEXT: ${{ github.event.action }}
       run: echo "$GITHUB_CONTEXT"
-
+  CI-pipeline:
+    uses: bojancakar/kk/.github/workflows/ci.yml@main
+    with:
+      event_name: ${{ github.event.action }}
+      
     
