@@ -7,3 +7,7 @@ on:
 jobs:
   CI-pipeline:
     uses: bojancakar/kk/.github/workflows/ci.yml@main
+    secrets: 
+      repo_token: ${{ secrets.GITHUB_TOKEN }}
+      service_name: ${{secrets.SERVICE_NAME}}
+      
