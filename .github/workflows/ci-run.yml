@@ -3,13 +3,14 @@ name: ci
 on:
   pull_request:
     branches: [main]
+    types: [opened, reopened, edited, synchronize, labeled, unlabeled]
   
 
 jobs:
   job-check:
     runs-on: ubuntu-latest
     steps:
-    - name: check 
+    - name: Finding github event 
       env:
         GITHUB_CONTEXT: ${{ github.event.action }}
       run: echo "$GITHUB_CONTEXT"
