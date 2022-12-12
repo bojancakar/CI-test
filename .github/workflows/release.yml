@@ -11,9 +11,10 @@ jobs:
   #   secrets: 
   #     repo_token: ${{ secrets.GITHUB_TOKEN }}
   new_verison:
-    uses: bojancakar/kk/.github/workflows/release-template.yml@main
-    secrets:
-      token: ${{ secrets.BOT_ACCESS_TOKEN}}
+      uses: bojancakar/kk/.github/workflows/release-template.yml@main
+      secrets:
+        token: ${{ secrets.BOT_ACCESS_TOKEN}}
+        
 
 # name: Image tagging
 
