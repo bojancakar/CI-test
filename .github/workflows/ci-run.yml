@@ -10,6 +10,7 @@ jobs:
     steps:
     - name: check 
       env:
-        GITHUB_CONTEXT: ${{ toJson(github) }}
+        GITHUB_CONTEXT: ${{ github.event.action }}
       run: echo "$GITHUB_CONTEXT"
 
+    
