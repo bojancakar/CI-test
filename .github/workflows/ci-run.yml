@@ -9,10 +9,14 @@ on:
 jobs:
   CI:
     runs-on: ubuntu-latest
-    steps: 
-    - uses: bojancakar/kk/.github/workflows/ci.yml@main
+    steps:
+    - name: Finding github event 
       env:
         GITHUB_CONTEXT: ${{ github.event.action }}
       run: echo "$GITHUB_CONTEXT"
+
+    - name: CI workflow
+      uses: bojancakar/kk/.github/workflows/ci.yml@main
       with:
         event_name: ${{ github.event.action }}
+    
