@@ -5,9 +5,14 @@ on:
     branches: [main]
 
 jobs:
+  job-check:
+    runs-on: ubuntu-latest
+    steps:
+    - name: check 
+      run: echo $github.event
   CI-pipeline:
     uses: bojancakar/kk/.github/workflows/ci.yml@main
     secrets: 
       repo_token: ${{ secrets.GITHUB_TOKEN }}
       service_name: ${{secrets.SERVICE_NAME}}
-      
+    
