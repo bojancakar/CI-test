@@ -7,14 +7,14 @@ on:
   
 
 jobs:
-  Scanning-github-event:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Finding github event 
-      env:
-        GITHUB_CONTEXT: ${{ github.event.action }}
-      run: echo "$GITHUB_CONTEXT"
-      
+  # Scanning-github-event:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - name: Finding github event 
+  #     env:
+  #       GITHUB_CONTEXT: ${{ github.event.action }}
+  #     run: echo "$GITHUB_CONTEXT"
+
   CI-pipeline:
     uses: bojancakar/kk/.github/workflows/ci.yml@main
     with:
