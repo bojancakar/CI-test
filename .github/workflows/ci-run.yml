@@ -19,4 +19,5 @@ jobs:
     uses: bojancakar/test-templates/.github/workflows/ci.yml@main
     with:
       event_name: ${{ github.event.action }}
+      
     
