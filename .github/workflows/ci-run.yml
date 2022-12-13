@@ -7,7 +7,7 @@ on:
   
 
 jobs:
-  Scanning-github-event:
+  Github-event:
     runs-on: ubuntu-latest
     steps:
     - name: Finding github event 
