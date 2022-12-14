@@ -1,9 +1,11 @@
 name: Image tagging
 
 on:
-  push:
+  pull_request:
+    types: [closed]
     branches: [main]
 jobs:
+
   new_verison:
     uses: bojancakar/test-templates/.github/workflows/release-template.yml@main
     secrets:
