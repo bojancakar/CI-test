@@ -6,17 +6,7 @@ on:
     branches: [main]
 jobs:
 
-  Github-event:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Finding github event 
-      env:
-        GITHUB_CONTEXT: ${{ github.event.action }}
-      run: echo "$GITHUB_CONTEXT"
-
   new_verison:
     uses: bojancakar/test-templates/.github/workflows/release-template.yml@main
     secrets:
       token: ${{ secrets.BOT_ACCESS_TOKEN}}
-    with:
-      event_name: ${{ github.event.action }}
