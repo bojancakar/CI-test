@@ -8,4 +8,3 @@ jobs:
     uses: bojancakar/test-templates/.github/workflows/release-template.yml@main
     secrets:
       token: ${{ secrets.BOT_ACCESS_TOKEN}}
-
