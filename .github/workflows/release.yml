@@ -1,7 +1,8 @@
 name: Image tagging
 
 on:
-  push:
+  pull_request:
+    types: [closed]
     branches: [main]
 jobs:
   new_verison:
