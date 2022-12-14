@@ -20,4 +20,3 @@ jobs:
     with:
       event_name: ${{ github.event.action }}
       
-      
