@@ -1,13 +1,16 @@
-name: Set label 
+name: Add label to pull request
+
 on:
   pull_request:
-    types: [opened, reopened, edited, synchronize]
+    types: [opened, reopened, synchronize, edited]
 
 jobs:
-  label_pull_request:
+  add-label:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Add label to pull_request
-        run: |
-          curl -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -d '{"labels": ['version:major']}' "https://github.com/bojancakar/CI-test/pull/41/labels"
+      - name: Add label to pull request
+        uses: actions/add-labels@v1
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          labels: no_release
