@@ -11,7 +11,9 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v2
       - name: Add label to pull request
-        uses: actions/create-label@v1
-        with:
-          label-name: my-label
-          label-color: 0052CC
+        run: |
+          curl -X POST \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github+json" \
+            -d "{\"labels\":[\"my-label\"]}" \
+            "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.number }}/labels"
