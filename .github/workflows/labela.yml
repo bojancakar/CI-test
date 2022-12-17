@@ -15,5 +15,5 @@ jobs:
           curl -X POST \
             -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
             -H "Accept: application/vnd.github+json" \
-            -d "{\"labels\":[\"my-label\"]}" \
+            -d "{\"labels\":[\"no_release\"]}" \
             "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.number }}/labels"
