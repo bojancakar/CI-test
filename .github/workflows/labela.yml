@@ -2,17 +2,16 @@ name: Add label to pull request
 
 on:
   pull_request:
-    types: [opened,edited,synchronize,reopened]
+    types: [opened]
 
 jobs:
   add-label:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Check out repository
+        uses: actions/checkout@v2
       - name: Add label to pull request
-        uses: actions/github
+        uses: actions/create-label@v1
         with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          action: createLabel
-          name: my-label
-          color: 0052CC
+          label-name: my-label
+          label-color: 0052CC
