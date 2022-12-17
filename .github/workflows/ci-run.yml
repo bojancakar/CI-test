@@ -1,4 +1,4 @@
-name: ci 
+name: Finding github event and CI pipeline
 
 on:
   pull_request:
@@ -7,7 +7,7 @@ on:
   
 
 jobs:
-  Github-event:
+  Event:
     runs-on: ubuntu-latest
     steps:
     - name: Finding github event 
@@ -15,7 +15,7 @@ jobs:
         GITHUB_CONTEXT: ${{ github.event.action }}
       run: echo "$GITHUB_CONTEXT"
       
-  CI-pipeline:
+  Title-labels-and-Docker-test:
     uses: bojancakar/test-templates/.github/workflows/ci.yml@main
     with:
       event_name: ${{ github.event.action }}
