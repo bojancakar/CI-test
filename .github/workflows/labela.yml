@@ -8,6 +8,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Add label to pull pull_request
+      - name: Add label to pull_request
         run: |
-          curl -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -d '{"labels": [no_release]}' "https://api.github.com/repos/${{ github.repository }}/${{ github.event.nubmer}}/labels"
+          curl -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -d '{"labels": [no_release]}' "https://api.github.com/repos/${{ github.repository }}/${{ github.event.number}}/labels"
