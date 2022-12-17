@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Add label to pull request
-        uses: actions/github@v2
+        uses: actions/github@v1
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           action: createLabel
