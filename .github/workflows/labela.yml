@@ -2,7 +2,7 @@ name: Add label to pull request
 
 on:
   pull_request:
-    types: [opened, reopened, synchronize, edited]
+    types: [opened,edited,synchronize,reopened]
 
 jobs:
   add-label:
@@ -10,7 +10,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Add label to pull request
-        uses: actions/add-labels@v1
+        uses: actions/github@v2
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-          labels: no_release
+          action: createLabel
+          name: my-label
+          color: 0052CC
