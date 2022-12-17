@@ -1,1 +1,1 @@
-# pr-title-template
+# pr-title-templat
