@@ -10,4 +10,4 @@ jobs:
       - uses: actions/checkout@v2
       - name: Add label to pull_request
         run: |
-          curl -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -d '{"labels": ['version:major']}' "https://github.com/repos/${{ github.repository }}/issues/${{ github.event.number}}/labels"
+          curl -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -d '{"labels": ['version:major']}' "https://api.github.com/${{ github.repository }}/issues/${{ github.event.number}}/labels"
