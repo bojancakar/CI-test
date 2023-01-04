@@ -11,4 +11,3 @@ jobs:
       - name: Add label to pull pull_request
         run: |
           curl -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -d '{"labels": [no_release]}' "https://api.github.com/repos/${{ github.repository }}/${{ github.event.nubmer}}/labels"
-          
