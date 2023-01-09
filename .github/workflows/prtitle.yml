@@ -5,4 +5,3 @@ on:
 jobs:
   validate_title:
     uses: bojancakar/test-templates/.github/workflows/pr-title-check.yml@main
-    
