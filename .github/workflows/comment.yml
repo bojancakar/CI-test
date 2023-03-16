@@ -1,0 +1,20 @@
+name: 'GitHub Action for PR'
+
+on:
+  pull_request:
+    branches:
+      - main
+env:
+  service: ${{github.repository}}
+  tag: verison
+jobs:
+  add-comment-and-set-label:
+    name: 'Add comment to  PR'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Add message to PR for labeling
+        uses: mshick/add-pr-comment@v1
+        with:
+          message: |
+                Deployed to STAGE and service is {{service}} with tag: {{version}}
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
