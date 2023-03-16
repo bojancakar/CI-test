@@ -9,7 +9,7 @@ on:
       - "opened"
       - "edited"
 env:
-  tag: $1.1.0
+  tag: ${{1.1.0}}
 jobs:
   add-comment-and-set-label:
     name: 'Add comment to  PR'
