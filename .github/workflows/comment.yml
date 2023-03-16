@@ -9,8 +9,8 @@ on:
       - "opened"
       - "edited"
 env:
-  service: ${{github.repository}}
-  tag: ${{version}}
+  github_repo: ${{github.repository}}
+  tag: 1.1.0
 jobs:
   add-comment-and-set-label:
     name: 'Add comment to  PR'
@@ -20,5 +20,5 @@ jobs:
         uses: mshick/add-pr-comment@v1
         with:
           message: |
-                Deployed to STAGE, repo is ${{github.repository}} with tag: ${{version}}
+                Deployed to STAGE, repo is ${{github_repo}} with tag: ${{tag}}
           repo-token: ${{ secrets.GITHUB_TOKEN }}
