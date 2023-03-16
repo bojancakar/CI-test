@@ -16,5 +16,5 @@ jobs:
         uses: mshick/add-pr-comment@v1
         with:
           message: |
-                Deployed to STAGE and repo is ${{github.repository}} with tag: ${{version}}
+                Deployed to STAGE, repo is ${{github.repository}} with tag: ${{version}}
           repo-token: ${{ secrets.GITHUB_TOKEN }}
