@@ -4,6 +4,10 @@ on:
   pull_request:
     branches:
       - main
+    types:
+      - "synchronize"
+      - "opened"
+      - "edited"
 env:
   service: ${{github.repository}}
   tag: ${{verison}}
