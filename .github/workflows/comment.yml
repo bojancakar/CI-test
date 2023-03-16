@@ -6,7 +6,7 @@ on:
       - main
 env:
   service: ${{github.repository}}
-  tag: verison
+  tag: ${{verison}}
 jobs:
   add-comment-and-set-label:
     name: 'Add comment to  PR'
@@ -16,5 +16,5 @@ jobs:
         uses: mshick/add-pr-comment@v1
         with:
           message: |
-                Deployed to STAGE and service is $service with tag: $version
+                Deployed to STAGE and repo is ${{github.repository}} with tag: ${{version}}
           repo-token: ${{ secrets.GITHUB_TOKEN }}
