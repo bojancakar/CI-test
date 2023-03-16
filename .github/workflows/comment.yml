@@ -10,7 +10,7 @@ on:
       - "edited"
 env:
   service: ${{github.repository}}
-  tag: ${{verison}}
+  tag: ${{version}}
 jobs:
   add-comment-and-set-label:
     name: 'Add comment to  PR'
