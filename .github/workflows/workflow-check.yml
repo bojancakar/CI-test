@@ -10,7 +10,7 @@ jobs:
     steps:
     - name: Poruka za uspesno
       run: |
-        curl -X POST -H 'Content-type: application/json' --data '{"text":"Cao, radi ti ovo!"}' https://hooks.slack.com/services/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
+        curl -X POST -H 'Content-type: application/json' --data '{"text":"Cao, radi ti valjda ovo!"}' https://hooks.slack.com/services/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
   on-failure:
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'failure' }}
