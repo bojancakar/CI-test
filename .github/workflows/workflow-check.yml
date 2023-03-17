@@ -10,11 +10,11 @@ jobs:
     steps:
     - name: Poruka za uspesno
       run: |
-        curl -X POST -H 'Content-type: application/json' --data '{"text":"Cao, radi ti ovo!"}' https://hooks.slack.com/services/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
+        curl -X POST -H 'Content-type: application/json' --data '{"text":"Hello, World!"}' https://hooks.slack.com/services/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
   on-failure:
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'failure' }}
     steps:
     - name: Poruka za gresku.
       run: |
-        curl -X POST -H 'Content-type: application/json' --data '{"text":"Cao, ovo ti ne radi!"}' https://hooks.slack.com/services/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
+        curl -X POST -H 'Content-type: application/json' --data '{"text":"Hello, World!"}' https://hooks.slack.com/services/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
