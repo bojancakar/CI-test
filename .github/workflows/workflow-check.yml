@@ -3,7 +3,7 @@ on:
   workflow_run:
     workflows: [Set label]
     types: [completed]
-    branches: [main]
+    branches: [prcomment]
 
 jobs:
   on-success:
