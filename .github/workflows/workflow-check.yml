@@ -2,7 +2,8 @@ on:
   workflow_run:
     workflows: [Set label]
     types: [completed]
-    branches: [main]
+    pull_request:
+      branches: [main]
 
 jobs:
   on-success:
