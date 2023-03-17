@@ -1,6 +1,7 @@
 name: workflow check
 on:
   workflow_run:
+    pull_request:
     workflows: [Finding github event and CI pipeline, Image tagging, Run migrations, Set label, 'GitHub Action for PR']
     types: [completed]
 
