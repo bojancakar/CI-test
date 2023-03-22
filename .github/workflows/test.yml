@@ -66,8 +66,12 @@ jobs:
         fetch-depth: 0
 
     - name: Comment
-      env: 
-        GH_TOKEN: ${{ github.token }}
+      # env: 
+      #   GH_TOKEN: ${{ github.token }}
+      # run: |
+      #   gh pr comment ${{ github.event.client_payload.pr_number }} --body "testiranje komentara tag: ${{needs.update-version-and-create-release.outputs.NEW_VERSION }} "
       run: |
-        gh pr comment ${{ github.event.client_payload.pr_number }} --body "testiranje komentara tag: ${{needs.update-version-and-create-release.outputs.NEW_VERSION }} "
-
+          curl -sSL -H "Authorization: token ${{ secrets.BOT_ACCESS_TOKEN }}" \
+              -H "Accept: application/vnd.github.v3+json" \
+              -X POST "https://api.github.com/repos/${{github.event.client_payload.repository}}/issues/${{github.event.client_payload.pr_number}}/comments" \
+              -d "{\"body\":\"Deployed to somewhere\"}"
