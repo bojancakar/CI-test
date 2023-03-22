@@ -1,10 +1,10 @@
-name: Run migrations
+# name: Run migrations
 
-on:
-  pull_request:
-    types: [ opened ]
-    branches: [main]
+# on:
+#   pull_request:
+#     types: [ opened ]
+#     branches: [main]
 
-jobs:
-  migrations:
-    uses: bojancakar/test-templates/.github/workflows/migrations.yml@main
+# jobs:
+#   migrations:
+#     uses: bojancakar/test-templates/.github/workflows/migrations.yml@main

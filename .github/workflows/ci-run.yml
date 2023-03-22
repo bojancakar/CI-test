@@ -1,22 +1,22 @@
-name: Finding github event and CI pipeline
+# name: Finding github event and CI pipeline
 
-on:
-  pull_request:
-    branches: [main]
-    types: [opened, reopened, edited, synchronize, labeled, unlabeled]
+# on:
+#   pull_request:
+#     branches: [main]
+#     types: [opened, reopened, edited, synchronize, labeled, unlabeled]
 
-jobs:
-  Event:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Finding github event 
-      env:
-        GITHUB_CONTEXT: ${{ github.event.action }}
-      run: echo "$GITHUB_CONTEXT"
+# jobs:
+#   Event:
+#     runs-on: ubuntu-latest
+#     steps:
+#     - name: Finding github event 
+#       env:
+#         GITHUB_CONTEXT: ${{ github.event.action }}
+#       run: echo "$GITHUB_CONTEXT"
       
-  Title-labels-and-Docker-test:
-    uses: bojancakar/test-templates/.github/workflows/ci.yml@main
-    with:
-      event_name: ${{ github.event.action }}
+#   Title-labels-and-Docker-test:
+#     uses: bojancakar/test-templates/.github/workflows/ci.yml@main
+#     with:
+#       event_name: ${{ github.event.action }}
     
 
