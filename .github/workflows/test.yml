@@ -60,6 +60,19 @@ jobs:
     - name: Checkout our code
       uses: actions/checkout@v3
       with:
+        repository: bojancakar/test-templates
+        ref: refs/tags/v1
+        token: ${{ secrets.BOT_ACCESS_TOKEN }}
         fetch-depth: 0
-        ref: main
+        persist-credentials: false
+        path: .
+
+    - name: Add message to closed merged PR
+      uses: mshick/add-pr-comment@v1
+      with:
+        message: |
+              Testiramo sa tagom: ${{ needs.update-version-and-create-release.outputs.NEW_VERSION }}
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+
 
