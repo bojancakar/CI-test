@@ -57,13 +57,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repo
-      uses: actions/checkout@v3
-      with:
-        repository: ${{ github.event.client_payload.repository }}
-        ref: main
-        token: ${{ secrets.BOT_ACCESS_TOKEN }}
-        fetch-depth: 0
+    # - name: Checkout repo
+    #   uses: actions/checkout@v3
+    #   with:
+    #     repository: ${{ github.event.client_payload.repository }}
+    #     ref: main
+    #     token: ${{ secrets.BOT_ACCESS_TOKEN }}
+    #     fetch-depth: 0
 
     - name: Comment
       # env: 
@@ -74,4 +74,4 @@ jobs:
           curl -sSL -H "Authorization: token ${{ secrets.BOT_ACCESS_TOKEN }}" \
               -H "Accept: application/vnd.github.v3+json" \
               -X POST "https://api.github.com/repos/${{github.event.client_payload.repository}}/issues/${{github.event.client_payload.pr_number}}/comments" \
-              -d "{\"body\":\"Deployed to somewhere\"}"
+              -d "{\"body\":\"Deployed somewhere with tag:  ${{needs.update-version-and-create-release.outputs.NEW_VERSION}}\"}"
