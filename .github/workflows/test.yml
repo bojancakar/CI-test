@@ -57,27 +57,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    # - name: Trigger workflow to update
-    #   run: |
-    #     curl -XPOST -H "Authorization: token ${{ secrets.BOT_ACCESS_TOKEN }}" -H "Accept: application/vnd.github.everest-preview+json" -H "Content-Type: application/json" https://api.github.com/repos/bojancakar/test-templates/dispatches --data '{"event_type": "dispatch-new-version","client_payload":{"service" : "@bojancakar/CI-test", "repository" : "${{ github.repository}}", "pr_number":"${{github.event.number}}"}}'
-    #     echo "ls -l"
-
-    # - name: Checkout our code
-    #   uses: actions/checkout@v3
-    #   with:
-    #     repository: bojancakar/test-templates
-    #     ref: main
-    #     token: ${{ secrets.BOT_ACCESS_TOKEN }}
-    #     fetch-depth: 0
-    #     persist-credentials: false
-    #     path: .
-
-    - name: Poslati poruku na zatvoreni pull request
-      uses: peter-evans/create-pull-request-comment@v1
+    - name: Checkout our code
+      uses: actions/checkout@v3
       with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        message: 'Neka poruka'
-        repository: ${{ github.event.client_payload.repository }}
-        pull_request_number: ${{ github.event.client_payload.pr_number }}
+        repository: bojancakar/test-templates
+        ref: refs/tags/v1
+        token: ${{ secrets.BOT_ACCESS_TOKEN }}
+        fetch-depth: 0
+        persist-credentials: false
+        path: .
+
+
+
 
 
