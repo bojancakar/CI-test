@@ -1,0 +1,65 @@
+name: 'Dispach'
+
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - closed
+  repository_dispatch:
+    types: [ dispatch-new-version ]
+
+jobs:
+  update-version-and-create-release:
+    if: ${{ (! contains(github.event.pull_request.labels.*.name, 'no_release'))  && ( github.event.pull_request.merged == true ) || (github.event_name == 'repository_dispatch')}}
+    name: 'Update version and create new tag'
+    runs-on: ubuntu-latest
+    outputs:
+      NEW_VERSION: ${{ steps.bump_new_version.outputs.NEW_VERSION }}
+    steps:
+      - name: Checkout our code
+        uses: actions/checkout@v3
+        id: checkout
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.BOT_ACCESS_TOKEN }}
+      - name: Git config
+        run: |
+          git config --global user.email Release@tst
+          git config --global user.name New-Release
+      - name: Update version of service
+        if: ${{ github.event_name == 'repository_dispatch' }}
+        run: |
+          echo "NEW_VERSION=$(npm version patch --git-tag-version false --commit-hooks false --tag-version-prefix)" >> $GITHUB_ENV
+      - name: Apply version bump (major)
+        if: contains(github.event.pull_request.labels.*.name, 'version:major') 
+        run:  echo "NEW_VERSION=$(npm version major --git-tag-version false --commit-hooks false --tag-version-prefix)" >> $GITHUB_ENV
+      - name: Apply version bump (minor)
+        if: contains(github.event.pull_request.labels.*.name, 'version:minor') 
+        run:  echo "NEW_VERSION=$(npm version minor --git-tag-version false --commit-hooks false --tag-version-prefix)" >> $GITHUB_ENV
+      - name: Apply version bump (patch)
+        if: contains(github.event.pull_request.labels.*.name, 'version:patch')
+        run:  echo "NEW_VERSION=$(npm version patch --git-tag-version false --commit-hooks false --tag-version-prefix)" >> $GITHUB_ENV
+      - name: Git push version bump
+        id: bump_new_version
+        run: |
+          git add .
+          git commit -m "New release: $NEW_VERSION"
+          git tag $NEW_VERSION
+          git push --tags
+          git push origin main --follow-tags --force
+          echo "::set-output name=NEW_VERSION::$NEW_VERSION"
+  build-and-push-to-ecr:
+    if: ${{ (! contains(github.event.pull_request.labels.*.name, 'no_release'))  && ( github.event.pull_request.merged == true ) || (github.event_name == 'repository_dispatch')}}
+    needs: update-version-and-create-release
+    env: 
+      NEW_VERSION: ${{ needs.update-version-and-create-release.outputs.NEW_VERSION }}
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout our code
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+        ref: main
+
