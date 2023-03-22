@@ -30,7 +30,7 @@ jobs:
       - name: Update version of service
         if: ${{ github.event_name == 'repository_dispatch' }}
         run: |
-          echo "NEW_VERSION=$(npm version patch --git-tag-version false --commit-hooks false --tag-version-prefix)" >> $GITHUB_ENV
+          echo "NEW_VERSION=$(npm version major --git-tag-version false --commit-hooks false --tag-version-prefix)" >> $GITHUB_ENV
       - name: Apply version bump (major)
         if: contains(github.event.pull_request.labels.*.name, 'version:major') 
         run:  echo "NEW_VERSION=$(npm version major --git-tag-version false --commit-hooks false --tag-version-prefix)" >> $GITHUB_ENV
