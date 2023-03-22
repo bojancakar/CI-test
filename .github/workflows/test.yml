@@ -67,6 +67,9 @@ jobs:
         persist-credentials: false
         path: .
 
+    - name: Comment
+      run: |
+        gh pr comment ${{ github.client.payload.pr_number }} --body "testiranje komentara"
 
 
 
