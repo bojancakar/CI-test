@@ -1,15 +1,15 @@
-name: Image tagging
+# name: Image tagging
 
-on:
-  pull_request:
-    types: [closed]
-    branches: [main]
+# on:
+#   pull_request:
+#     types: [closed]
+#     branches: [main]
 
-jobs:
+# jobs:
 
-  new_verison:
-    if: github.event.pull_request.merged == true && !contains(github.event.pull_request.labels.*.name, 'no_release')
-    uses: bojancakar/test-templates/.github/workflows/release-template.yml@main
-    secrets:
-      token: ${{ secrets.BOT_ACCESS_TOKEN}}
+#   new_verison:
+#     if: github.event.pull_request.merged == true && !contains(github.event.pull_request.labels.*.name, 'no_release')
+#     uses: bojancakar/test-templates/.github/workflows/release-template.yml@main
+#     secrets:
+#       token: ${{ secrets.BOT_ACCESS_TOKEN}}
 
