@@ -67,7 +67,7 @@ jobs:
 
     - name: Comment
       env: 
-        GH_TOKEN: ${{ secrets.token }}
+        GH_TOKEN: ${{ github.token }}
       run: |
         gh pr comment ${{ github.event.client_payload.pr_number }} --body "testiranje komentara tag: ${{needs.update-version-and-create-release.outputs.NEW_VERSION }} "
 
