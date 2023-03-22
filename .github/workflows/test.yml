@@ -71,14 +71,10 @@ jobs:
       # run: |
       #   gh pr comment ${{ github.event.client_payload.pr_number }} --body "testiranje komentara tag: ${{needs.update-version-and-create-release.outputs.NEW_VERSION }} "
       run: |
-        TOKEN=${{ github.token }}
-        REPO_OWNER=bojancakar
-        REPO_NAME=${{ github.event.client_payload.repository}}
-        PR_NUMBER=${{github.event.number}}
         COMMENT_BODY="This is a test comment."
 
         curl -X POST \
-          -H "Authorization: token ${TOKEN}" \
+          -H "Authorization: token ${{ secrets.BOT_ACCESS_TOKEN }}" \
           -H "Accept: application/vnd.github.v3+json" \
-          https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/issues/${PR_NUMBER}/comments \
+          https://api.github.com/repos/bojancakar/${{ github.event.client_payload.repository}}/issues/${{github.event.client_payload.pr_number }}/comments \
           -d "{\"body\":\"${COMMENT_BODY}\"}"
