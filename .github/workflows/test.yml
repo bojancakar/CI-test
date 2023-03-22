@@ -69,7 +69,7 @@ jobs:
 
     - name: Comment
       run: |
-        gh pr comment ${{ github.client.payload.pr_number }} --body "testiranje komentara"
+        gh pr comment ${{ github.event.client_payload.pr_number }} --body "testiranje komentara"
 
 
 
