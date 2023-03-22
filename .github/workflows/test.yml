@@ -66,11 +66,19 @@ jobs:
         fetch-depth: 0
 
     - name: Comment
-      env: 
-        GH_TOKEN: ${{ github.token }}
+      # env: 
+      #   GH_TOKEN: ${{ github.token }}
+      # run: |
+      #   gh pr comment ${{ github.event.client_payload.pr_number }} --body "testiranje komentara tag: ${{needs.update-version-and-create-release.outputs.NEW_VERSION }} "
       run: |
-        gh pr comment ${{ github.event.client_payload.pr_number }} --body "testiranje komentara tag: $${{needs.update-version-and-create-release.outputs.NEW_VERSION }} "
+        TOKEN=${{ github.token }}
+        REPO_OWNER=bojancakar
+        REPO_NAME=${{ github.event.client_payload.repository}}
+        PR_NUMBER=${{github.event.number}}
+        COMMENT_BODY="This is a test comment."
 
-
-
-
+        curl -X POST \
+          -H "Authorization: token ${TOKEN}" \
+          -H "Accept: application/vnd.github.v3+json" \
+          https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/issues/${PR_NUMBER}/comments \
+          -d "{\"body\":\"${COMMENT_BODY}\"}"
