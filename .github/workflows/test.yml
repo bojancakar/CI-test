@@ -17,12 +17,9 @@ jobs:
     outputs:
       NEW_VERSION: ${{ steps.bump_new_version.outputs.NEW_VERSION }}
     steps:
-      # - name: Checkout our code
-      #   uses: actions/checkout@v3
-      #   id: checkout
-      #   with:
-      #     fetch-depth: 0
-      #     token: ${{ secrets.BOT_ACCESS_TOKEN }}
+      - name: Checkout our code
+        uses: actions/checkout@v3
+
       - name: Git config
         run: |
           git config --global user.email new-Release@test.cl
