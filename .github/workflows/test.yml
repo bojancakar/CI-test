@@ -30,7 +30,7 @@ jobs:
       - name: Update version of service
         if: ${{ github.event_name == 'repository_dispatch' }}
         run: |
-          echo "NEW_VERSION=$(npm version major --git-tag-version false --commit-hooks false --tag-version-prefix)" >> $GITHUB_ENV
+          echo "NEW_VERSION=$(npm version minor --git-tag-version false --commit-hooks false --tag-version-prefix)" >> $GITHUB_ENV
       - name: Apply version bump (major)
         if: contains(github.event.pull_request.labels.*.name, 'version:major') 
         run:  echo "NEW_VERSION=$(npm version major --git-tag-version false --commit-hooks false --tag-version-prefix)" >> $GITHUB_ENV
@@ -73,4 +73,4 @@ jobs:
           curl -sSL -H "Authorization: token ${{ secrets.BOT_ACCESS_TOKEN }}" \
               -H "Accept: application/vnd.github.v3+json" \
               -X POST "https://api.github.com/repos/${{github.event.client_payload.repository}}/issues/${{github.event.client_payload.pr_number}}/comments" \
-              -d "{\"body\":\"Deployed somewhere with tag: y ${{needs.update-version-and-create-release.outputs.NEW_VERSION}}\"}"
+              -d "{\"body\":\"Deployed somewhere with tag: ${{needs.update-version-and-create-release.outputs.NEW_VERSION}}\"}"
