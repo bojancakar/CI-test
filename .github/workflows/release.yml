@@ -23,8 +23,11 @@ jobs:
       - name: Deploy user service
         if: ${{ github.event.inputs.user }}
         run: |
-          curl -XPOST -H "Authorization: token ${{ secrets.BOT_ACCESS_TOKEN }}" -H "Accept: application/vnd.github.everest-preview+json" -H "Content-Type: application/json" https://api.github.com/repos/bojancakar/test-templates/dispatches --data '{"ref": "main","inputs":{"version_user": "${{ github.event.inputs.user }}"}}'
- 
+          curl -X POST \
+            -H "Authorization: Bearer ${{secrets.BOT_ACCESS_TOKEN}}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/bojancakar/test-templates/actions/workflows/release.yml/dispatches \
+            -d '{"ref":"main", "inputs": {"version_user": "${{ github.event.inputs.user }}"}}'
         # uses:
         # cyberlabrs/fornul_user/.github/workflows/deploy-prod.yml
         # with:
