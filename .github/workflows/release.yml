@@ -53,7 +53,7 @@ jobs:
 
     steps:
       - name: Update version
-        run: ./update_version.sh $(echo '${{ github.event.inputs }}' | jq length)
+        run: ./update_version.sh $(echo '${{ github.event.inputs }}' jq length)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         working-directory: .
