@@ -1,0 +1,57 @@
+name: Deploy to production
+
+on:
+  workflow_dispatch:
+    inputs:
+      user:
+        description: 'Enter the new version of the user service (leave blank to skip)'
+        required: false
+      organization:
+        description: 'Enter the new version of the organization service (leave blank to skip)'
+        required: false
+      frontend:
+        description: 'Enter the new version of the frontend service (leave blank to skip)'
+        required: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Deploy user service
+        if: ${{ github.event.inputs.user }}
+        run: |
+          curl -XPOST -H "Authorization: token ${{ secrets.BOT_ACCESS_TOKEN }}" -H "Accept: application/vnd.github.everest-preview+json" -H "Content-Type: application/json" https://api.github.com/repos/bojancakar/CI-test/dispatches --data '{"event_type": "dispatch-user-release","client_payload":{"version": "${{ github.event.inputs.user }}"}}'
+ 
+        # uses:
+        # cyberlabrs/fornul_user/.github/workflows/deploy-prod.yml
+        # with:
+        #   version: ${{ github.event.inputs.user }}
+        # env:
+        #   GITHUB_TOKEN: ${{ secrets.BOT_ACCESS_TOKEN }}
+      
+      - name: Deploy organization service
+        if: ${{ github.event.inputs.organization }}
+        run: |
+          curl -XPOST -H "Authorization: token ${{ secrets.BOT_ACCESS_TOKEN }}" -H "Accept: application/vnd.github.everest-preview+json" -H "Content-Type: application/json" https://api.github.com/repos/bojancakar/CI-test/dispatches --data '{"event_type": "dispatch-organization-release","client_payload":{"version": "${{ github.event.inputs.organization }}"}}'
+ 
+        # uses:
+        # cyberlabrs/fornul_organization/.github/workflows/deploy-prod.yml
+        # with:
+        #   version: ${{ github.event.inputs.organization }}
+        # env:
+        #   GITHUB_TOKEN: ${{ secrets.BOT_ACCESS_TOKEN }}
+      
+      - name: Deploy frontend service
+        if: ${{ github.event.inputs.frontend }}
+        # uses:
+        # cyberlabrs/fornul_frontend/.github/workflows/deploy-prod.yml
+        # with:
+        #   version: ${{ github.event.inputs.frontend }}
+          # env:
+          #   GITHUB_TOKEN: ${{ secrets.BOT_ACCESS_TOKEN }}
+        run: |
+          curl -XPOST -H "Authorization: token ${{ secrets.BOT_ACCESS_TOKEN }}" -H "Accept: application/vnd.github.everest-preview+json" -H "Content-Type: application/json" https://api.github.com/repos/bojancakar/CI-test/dispatches --data '{"event_type": "dispatch-front-release","client_payload":{"version": "${{ github.event.inputs.frontend }}"}}'
+          
