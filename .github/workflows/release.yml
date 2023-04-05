@@ -53,9 +53,8 @@ jobs:
     env:
       GH_TOKEN: ${{ github.token }}
     steps:
-      - name: Create release and tag
-        if: ${{ github.event.inputs.user || github.event.inputs.organization || github.event.inputs.frontend }}
-        run: |
-          VERSION=$(gh release list | awk 'BEGIN { v=1 } /v[0-9]+.[0-9]+.[0-9]+/ { split($1,a,"."); if (a[2]>v) { v=a[2] } } END { printf "v%d.%d.%d", v+1, 0, 0 }')
-          echo "Creating release ${VERSION}"
-          gh release create ${VERSION} -t "Release ${VERSION}"
+      - name: Update version
+        run: ./update_version.sh ${{ github.event.inputs | length }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        working-directory: .
