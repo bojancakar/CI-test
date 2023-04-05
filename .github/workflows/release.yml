@@ -55,8 +55,8 @@ jobs:
       - name: Update version
         run: |
           cd ../..
-          echo pwd
-          ./update_version.sh $(echo '${{ github.event.inputs }}' jq length)
+          echo "pwd"
+          .update_version.sh $(echo '${{ github.event.inputs }}' jq length)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         working-directory: .
