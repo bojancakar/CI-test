@@ -65,11 +65,11 @@ jobs:
        node-version: 16
        
     - name: Looking for minor changes 
-      if: length(github.event.inputs) > 1
+      if: ${{length(github.event.inputs)}} > 1
       run: echo "NEW_VERSION=$(npm version minor --no-git-tag-version --tag-version-prefix="")" >> $GITHUB_ENV
 
     - name: Looking for major changes
-      if: length(github.event.inputs) == 1
+      if: ${{length(github.event.inputs)}} == 1
       run: echo "NEW_VERSION=$(npm version major --no-git-tag-version --tag-version-prefix="")" >> $GITHUB_ENV
 
     - name: Set outputs
