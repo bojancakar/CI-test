@@ -50,8 +50,7 @@ jobs:
   create-release:
     runs-on: ubuntu-latest
     needs: deploy
-    env:
-      GH_TOKEN: ${{ github.token }}
+
     steps:
       - name: Update version
         run: ./update_version.sh ${{ github.event.inputs | length }}
