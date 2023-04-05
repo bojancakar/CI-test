@@ -63,17 +63,14 @@ jobs:
     - uses: actions/setup-node@v3
       with:
        node-version: 16
-    
-    - name: Number of inputs
-      run: echo ::set-output name=numberOfInputs::${{ toJson(github.event.inputs) | keys | length }}
 
     - name: Looking for minor changes 
-      if: ${{numberOfInputs}} > 1
+      if: ${{ github.event.inputs != null && github.event.inputs.user != '' && github.event.inputs.organization != '' && github.event.inputs.frontend != '' }}
       run: echo "NEW_VERSION=$(npm version minor --no-git-tag-version --tag-version-prefix="")" >> $GITHUB_ENV
 
-    - name: Looking for major changes
-      if: ${{numberOfInputs}} == 1
-      run: echo "NEW_VERSION=$(npm version major --no-git-tag-version --tag-version-prefix="")" >> $GITHUB_ENV
+    - name: Looking for patch changes
+      if: ${{ github.event.inputs == 1 }}
+      run: echo "NEW_VERSION=$(npm version patch --no-git-tag-version --tag-version-prefix="")" >> $GITHUB_ENV
 
     - name: Set outputs
       id: output
