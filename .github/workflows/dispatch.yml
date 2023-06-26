@@ -27,6 +27,7 @@ jobs:
       run: |
         git config --local user.email "actions@github.com"
         git config --local user.name "GitHub Actions"
+        git pull
         git commit -a -m "Update versions for ${{github.event.client_payload.service}}" --allow-empty
         git push
 
