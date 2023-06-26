@@ -1,0 +1,37 @@
+name: new verion dispatch
+
+on:
+  repository_dispatch:
+    types: [nova-verzija]
+
+jobs: 
+  test:
+    runs-on: ubuntu-latest
+    steps: 
+    - name: Checkout our code
+      uses: actions/checkout@v3
+      id: checkout
+      with:
+        fetch-depth: 0
+
+    - name: Git config
+      run: |
+        git config --global user.email new-release-bot@fornul.io
+        git config --global user.name fornul-new-version 
+
+    - name: Get line of env variable
+      id: envline
+      run: |
+        echo "::set-output name=line::$(awk '/${{github.event.client_payload.service}}_VERSION*/{ print NR; exit }' 'verzije.env')"
+
+    - name: Update file 
+      env:
+        SERVICE: ${{ github.event.client_payload.service }}
+        EDIT_LINE: ${{steps.envline.outputs.line}}
+        NEW_VERSION_LINE: "${{ github.event.client_payload.service }}_VERSION=${{github.event.client_payload.version}}"
+      run: |
+        git pull
+        sed -i '${{env.EDIT_LINE}}s/.*/${{env.NEW_VERSION_LINE}}/' '${{github.event.client_payload.env}}.env'
+        git add .
+        git commit -m "${{ env.NEW_VERSION_LINE }} to verzije.env"
+        git push
