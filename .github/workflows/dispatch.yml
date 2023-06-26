@@ -19,19 +19,28 @@ jobs:
         git config --global user.email new-release-bot@fornul.io
         git config --global user.name fornul-new-version 
 
-    - name: Get line of env variable
-      id: envline
-      run: |
-        echo "::set-output name=line::$(awk '/${{github.event.client_payload.service}}_VERSION*/{ print NR; exit }' 'verzije.env')"
+        - name: Find line of env variable
+        id: findline
+        run: |
+          line=$(awk -v service="${{ github.event.client_payload.service }}" '/^'"${{ github.event.client_payload.service }}_VERSION="/ { print NR; exit }' 'verzije.env')
+          if [ -z "$line" ]; then
+            echo "::set-output name=line::not_found"
+          else
+            echo "::set-output name=line::$line"
+          fi
 
-    - name: Update file 
+    - name: Update file
       env:
         SERVICE: ${{ github.event.client_payload.service }}
-        EDIT_LINE: ${{steps.envline.outputs.line}}
-        NEW_VERSION_LINE: "${{ github.event.client_payload.service }}_VERSION=${{github.event.client_payload.version}}"
+        EDIT_LINE: ${{ steps.findline.outputs.line }}
+        NEW_VERSION_LINE: "${{ github.event.client_payload.service }}_VERSION=${{ github.event.client_payload.version }}"
       run: |
         git pull
-        sed -i '${{env.EDIT_LINE}}s/.*/${{env.NEW_VERSION_LINE}}/' '${{github.event.client_payload.env}}.env'
+        if [ "$EDIT_LINE" == "not_found" ]; then
+          echo "${SERVICE}_VERSION=${{ github.event.client_payload.version }}" >> 'verzije.env'
+        else
+          sed -i "${EDIT_LINE}s/.*/${NEW_VERSION_LINE}/" 'verzije.env'
+        fi
         git add .
-        git commit -m "${{ env.NEW_VERSION_LINE }} to verzije.env"
+        git commit -m "${NEW_VERSION_LINE} to verzije.env"
         git push
