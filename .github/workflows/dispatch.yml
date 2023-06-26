@@ -44,3 +44,4 @@ jobs:
         git add .
         git commit -m "${NEW_VERSION_LINE} to verzije.env"
         git push
+        
