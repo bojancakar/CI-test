@@ -14,26 +14,42 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: Git config
+    - name: Check if line exists and update version
       run: |
-        git config --global user.email new-release-bot@fornul.io
-        git config --global user.name fornul-new-version 
+        if grep -q "${{ github.event.client_payload.service }}_VERSION" verzije.txt; then
+          sed_command="s/${{ github.event.client_payload.service }}_VERSION.*/${{ github.event.client_payload.service }}_VERSION=${{ github.event.client_payload.version }}/g"
+          sed -i -e "${sed_command}" verzije.txt
+        else
+          echo "${{ github.event.client_payload.service }}_VERSION=${{ github.event.client_payload.version }}" >> verzije.txt
+        fi
 
-    - name: Get line of env variable
+    - name: Commit changes
       run: |
-        echo "LINE=$(awk '/${{github.event.client_payload.service}}_VERSION*/{ print NR; exit }' 'verzije.env')" >> $GITHUB_ENV
-
-    - name: Set output
-      id: output
-      run: echo "line=$LINE" >> $GITHUB_OUTPUT
-    - name: Update file 
-      env:
-        SERVICE: ${{ github.event.client_payload.service }}
-        EDIT_LINE: ${{steps.output.outputs.line}}
-        NEW_VERSION_LINE: "${{ github.event.client_payload.service }}_VERSION=${{github.event.client_payload.version}}"
-      run: |
-        git pull
-        sed -i '${{env.EDIT_LINE}}s/.*/${{env.NEW_VERSION_LINE}}/' 'verzije.env'
-        git add .
-        git commit -m "${{ env.NEW_VERSION_LINE }} to verzije.env"
+        git config --local user.email "actions@github.com"
+        git config --local user.name "GitHub Actions"
+        git commit -a -m "Update versions for ${{github.event.client_payload.service}}" --allow-empty
         git push
+
+    # - name: Git config
+    #   run: |
+    #     git config --global user.email new-release-bot@fornul.io
+    #     git config --global user.name fornul-new-version 
+
+    # - name: Get line of env variable
+    #   run: |
+    #     echo "LINE=$(awk '/${{github.event.client_payload.service}}_VERSION*/{ print NR; exit }' 'verzije.env')" >> $GITHUB_ENV
+
+    # - name: Set output
+    #   id: output
+    #   run: echo "line=$LINE" >> $GITHUB_OUTPUT
+    # - name: Update file 
+    #   env:
+    #     SERVICE: ${{ github.event.client_payload.service }}
+    #     EDIT_LINE: ${{steps.outpu.outputs.line}}
+    #     NEW_VERSION_LINE: "${{ github.event.client_payload.service }}_VERSION=${{github.event.client_payload.version}}"
+    #   run: |
+    #     git pull
+    #     sed -i '${{env.EDIT_LINE}}s/.*/${{env.NEW_VERSION_LINE}}/' 'verzije.env'
+    #     git add .
+    #     git commit -m "${{ env.NEW_VERSION_LINE }} to verzije.env"
+    #     git push
