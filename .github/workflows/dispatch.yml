@@ -22,7 +22,7 @@ jobs:
     - name: Find line of env variable
       id: findline
       run: |
-        line=$(awk -v service="${{ github.event.client_payload.service }}" '/^'"${{ github.event.client_payload.service }}_VERSION="/ { print NR; exit }' 'verzije.env')
+        line=$(awk awk '/${{github.event.client_payload.service}}_VERSION*/{ print NR; exit }' 'verzije.env')"
         if [ -z "$line" ]; then
           echo "::set-output name=line::not_found"
         else
