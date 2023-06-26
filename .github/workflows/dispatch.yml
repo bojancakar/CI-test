@@ -31,7 +31,7 @@ jobs:
         NEW_VERSION_LINE: "${{ github.event.client_payload.service }}_VERSION=${{github.event.client_payload.version}}"
       run: |
         git pull
-        sed -i '${{env.EDIT_LINE}}s/.*/${{env.NEW_VERSION_LINE}}/' '${{github.event.client_payload.env}}.env'
+        sed -i '${{env.EDIT_LINE}}s/.*/${{env.NEW_VERSION_LINE}}/' 'verzije.env'
         git add .
         git commit -m "${{ env.NEW_VERSION_LINE }} to verzije.env"
         git push
