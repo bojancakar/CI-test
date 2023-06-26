@@ -23,13 +23,13 @@ jobs:
       run: |
         echo "LINE=$(awk '/${{github.event.client_payload.service}}_VERSION*/{ print NR; exit }' 'verzije.env')" >> $GITHUB_ENV
 
-    # - name: Set output
-    #   id: output
-    #   run: echo "line=$LINE" >> $GITHUB_OUTPUT
+    - name: Set output
+      id: output
+      run: echo "line=$LINE" >> $GITHUB_OUTPUT
     - name: Update file 
       env:
         SERVICE: ${{ github.event.client_payload.service }}
-        EDIT_LINE: ${{steps.envline.outputs.line}}
+        EDIT_LINE: ${{steps.output.outputs.line}}
         NEW_VERSION_LINE: "${{ github.event.client_payload.service }}_VERSION=${{github.event.client_payload.version}}"
       run: |
         git pull
