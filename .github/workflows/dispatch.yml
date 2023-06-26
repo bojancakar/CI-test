@@ -16,18 +16,17 @@ jobs:
 
     - name: Check if line exists and update version
       run: |
-        if grep -q "${{ github.event.client_payload.service }}_VERSION" verzije.txt; then
+        if grep -q "${{ github.event.client_payload.service }}_VERSION" verzije.env; then
           sed_command="s/${{ github.event.client_payload.service }}_VERSION.*/${{ github.event.client_payload.service }}_VERSION=${{ github.event.client_payload.version }}/g"
-          sed -i -e "${sed_command}" verzije.txt
+          sed -i -e "${sed_command}" verzije.env
         else
-          echo "${{ github.event.client_payload.service }}_VERSION=${{ github.event.client_payload.version }}" >> verzije.txt
+          echo "${{ github.event.client_payload.service }}_VERSION=${{ github.event.client_payload.version }}" >> verzije.env
         fi
 
     - name: Commit changes
       run: |
         git config --local user.email "actions@github.com"
         git config --local user.name "GitHub Actions"
-        git pull
         git commit -a -m "Update versions for ${{github.event.client_payload.service}}" --allow-empty
         git push
 
