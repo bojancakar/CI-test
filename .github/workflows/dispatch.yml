@@ -18,21 +18,16 @@ jobs:
       run: |
         git config --global user.email new-release-bot@fornul.io
         git config --global user.name fornul-new-version 
-
-    - name: Get line of env variable
-      id: envline
-      run: |
-        echo "$(awk '/${{ github.event.client_payload.service }}_VERSION*/{ print NR; exit }' 'verzije.env')" >> $GITHUB_ENV
       
     - name: Check if line exists
       id: checkline
       run: |
         if grep -Fxq "${{ github.event.client_payload.service }}_VERSION=" verzije.env; then
           echo "Line exists"
-          echo "line_exists=true" >> $GITHUB_ENV
+          echo "line_exists=true" >> $GITHUB_OUTPUT
         else
           echo "Line does not exist"
-          echo "line_exists=false" >> $GITHUB_ENV
+          echo "line_exists=false" >> $GITHUB_OUTPUT
         fi
     
     - name: Update file
@@ -41,7 +36,7 @@ jobs:
         NEW_VERSION_LINE: "${{ github.event.client_payload.service }}_VERSION=${{ github.event.client_payload.version }}"
       run: |
         git pull
-        if [[ "${{ env.line_exists }}" == "true" ]]; then
+        if [[ "${{ steps.checkline.outputs.line_exists }}" == "true" ]]; then
           sed -i "s/${SERVICE}_VERSION=.*/${NEW_VERSION_LINE}/" verzije.env
         else
           echo "${NEW_VERSION_LINE}" >> verzije.env
