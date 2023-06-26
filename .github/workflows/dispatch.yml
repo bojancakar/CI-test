@@ -19,14 +19,14 @@ jobs:
         git config --global user.email new-release-bot@fornul.io
         git config --global user.name fornul-new-version 
 
-        - name: Find line of env variable
-        id: findline
-        run: |
-          line=$(awk '/${{ github.event.client_payload.service }}_VERSION.*/{ print NR; exit }' 'verzije.env' || echo "not_found")
-          echo "::set-output name=line::$line"
-          if [ "$line" == "not_found" ]; then
-            echo "${{ github.event.client_payload.service }}_VERSION=${{ github.event.client_payload.version }}" >> 'verzije.env'
-          fi
+    - name: Find line of env variable
+      id: findline
+      run: |
+        line=$(awk '/${{ github.event.client_payload.service }}_VERSION.*/{ print NR; exit }' 'verzije.env' || echo "not_found")
+        echo "::set-output name=line::$line"
+        if [ "$line" == "not_found" ]; then
+          echo "${{ github.event.client_payload.service }}_VERSION=${{ github.event.client_payload.version }}" >> 'verzije.env'
+        fi
 
     - name: Update file
       env:
