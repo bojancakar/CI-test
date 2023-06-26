@@ -18,16 +18,16 @@ jobs:
       run: |
         git config --global user.email new-release-bot@fornul.io
         git config --global user.name fornul-new-version 
-      
+
     - name: Check if line exists
       id: checkline
       run: |
         if grep -Fxq "${{ github.event.client_payload.service }}_VERSION=" verzije.env; then
           echo "Line exists"
-          echo "line_exists=true" >> $GITHUB_OUTPUT
+          echo "::set-output name=line_exists::true"
         else
           echo "Line does not exist"
-          echo "line_exists=false" >> $GITHUB_OUTPUT
+          echo "::set-output name=line_exists::false"
         fi
       
     - name: Update file
