@@ -20,10 +20,12 @@ jobs:
         git config --global user.name fornul-new-version 
 
     - name: Get line of env variable
-      id: envline
       run: |
-        echo "::set-output name=line::$(awk '/${{github.event.client_payload.service}}_VERSION*/{ print NR; exit }' 'verzije.env')"
+        echo "LINE=$(awk '/${{github.event.client_payload.service}}_VERSION*/{ print NR; exit }' 'verzije.env')" >> $GITHUB_ENV
 
+    # - name: Set output
+    #   id: output
+    #   run: echo "line=$LINE" >> $GITHUB_OUTPUT
     - name: Update file 
       env:
         SERVICE: ${{ github.event.client_payload.service }}
