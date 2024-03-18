@@ -22,7 +22,7 @@ jobs:
           node-version: 20
       - name: Git config
         run: |
-          git config --global user.email new-release-bot@emulate.energy
+          git config --global user.email asd-release-bot@xoks.asd
           git config --global user.name New-Release
       - name: Update version of service
         if: ${{ github.event_name == 'workflow_dispatch' }}
