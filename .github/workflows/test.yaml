@@ -1,0 +1,31 @@
+name: 'Test'
+
+on:
+  workflow_dispatch
+
+jobs:
+  job1:
+    name: 'testing'
+    runs-on: ubuntu-latest
+    outputs:
+      NEW_VERSION: ${{ steps.test.outputs.NEW_VERSION }}
+    steps:
+      - name: Checkout our code
+        uses: actions/checkout@v4
+        id: checkout
+      - name: Test
+        id: test
+        run: |
+          echo "NEW_VERSION=testic"
+          echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_OUTPUT
+  job2:
+    name: 'job 2'
+    needs: job1
+    env:
+      verzija: ${{ needs.job1.outputs.NEW_VERSION}}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: test
+        run: echo " testiranje ${{env.verzija}} "
