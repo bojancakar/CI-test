@@ -8,16 +8,43 @@ jobs:
     name: 'testing'
     runs-on: ubuntu-latest
     outputs:
-      NEW_VERSION: ${{ steps.test.outputs.new_version }}
+      NEW_VERSION: ${{ steps.bump_new_version.outputs.NEW_VERSION }}
     steps:
       - name: Checkout our code
         uses: actions/checkout@v4
         id: checkout
-      - name: Set outputs
-        id: test
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.UNCHECKED_PUSH_ACCESS_TOKEN }}
+      - name: Setup NodeJS
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Git config
         run: |
-          echo "NEW_VERSION=test123" >> $GITHUB_ENV
-          echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
+          git config --global user.email new-release-bot@emulate.energy
+          git config --global user.name New-Release
+      - name: Update version of service
+        if: ${{ github.event_name == 'workflow_dispatch' }}
+        run:  echo "NEW_VERSION=$(npm version patch --git-tag-version false --commit-hooks false --tag-version-prefix)" >> $GITHUB_ENV
+      - name: Apply version bump (major)
+        if: contains(github.event.pull_request.labels.*.name, 'version:major') 
+        run:  echo "NEW_VERSION=$(npm version major --git-tag-version false --commit-hooks false --tag-version-prefix)" >> $GITHUB_ENV
+      - name: Apply version bump (minor)
+        if: contains(github.event.pull_request.labels.*.name, 'version:minor') 
+        run:  echo "NEW_VERSION=$(npm version minor --git-tag-version false --commit-hooks false --tag-version-prefix)" >> $GITHUB_ENV
+      - name: Apply version bump (patch)
+        if: contains(github.event.pull_request.labels.*.name, 'version:patch')
+        run:  echo "NEW_VERSION=$(npm version patch --git-tag-version false --commit-hooks false --tag-version-prefix)" >> $GITHUB_ENV
+      - name: Git push version bump
+        id: bump_new_version
+        run: |
+          git add .
+          git commit -m "New release: $NEW_VERSION"
+          git tag $NEW_VERSION
+          git push --tags
+          git push origin main --follow-tags --force
+          echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_OUTPUT
   job2:
     name: 'job 2'
     needs: job1
