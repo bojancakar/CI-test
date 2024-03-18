@@ -13,10 +13,10 @@ jobs:
       - name: Checkout our code
         uses: actions/checkout@v4
         id: checkout
-      - name: Test
+      - name: Set outputs
         id: test
         run: |
-          echo "NEW_VERSION='testic'"
+          echo "NEW_VERSION=test123" >> $GITHUB_ENV
           echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
   job2:
     name: 'job 2'
