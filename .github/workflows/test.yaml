@@ -12,10 +12,6 @@ jobs:
     steps:
       - name: Checkout our code
         uses: actions/checkout@v4
-        id: checkout
-        with:
-          fetch-depth: 0
-          token: ${{ secrets.UNCHECKED_PUSH_ACCESS_TOKEN }}
       - name: Setup NodeJS
         uses: actions/setup-node@v4
         with:
