@@ -16,16 +16,16 @@ jobs:
       - name: Test
         id: test
         run: |
-          echo "NEW_VERSION=testic"
+          echo "NEW_VERSION='testic'"
           echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
   job2:
     name: 'job 2'
     needs: job1
     env:
-      verzija: ${{ needs.job1.outputs.NEW_VERSION}}
+      NOVA_VERZIJA: ${{ needs.job1.outputs.NEW_VERSION}}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
       - name: test
-        run: echo " testiranje ${{env.verzija}} "
+        run: echo " testiranje ${{env.NOVA_VERZIJA}} "
